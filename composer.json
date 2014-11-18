@@ -1,0 +1,15 @@
+{
+    "name": "strukt/console",
+    "description": "strukt command line console",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sam Weru",
+            "email": "samweru@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": { "Strukt\\": "src/"}
+    }
+}
