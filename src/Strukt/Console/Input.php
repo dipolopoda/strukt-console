@@ -112,9 +112,22 @@ class Input{
 	*/
 	public function getInput($query){
 
-		echo($query);
-		$stdin = fopen('php://stdin', 'r');
-		return fgets($stdin);
+		if(function_exists('readline')){
+
+           $line = readline($query);
+        }
+        else{
+
+			echo($query);
+
+			$stdin = fopen('php://stdin', 'r');
+			$line = fgets($stdin);
+		}
+
+		if(function_exists("readline_add_history"))
+			readline_add_history($line);
+
+		return $line;
 	}
 
 	/**

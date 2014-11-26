@@ -75,6 +75,7 @@ class Application{
 
 							$input = new \Strukt\Console\Input($argv, $command["docparser"]);
 							$input->getInputs();
+
 							$command["object"]->execute($input, $output);
 						}
 					}
