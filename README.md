@@ -1,7 +1,7 @@
 Strukt Console
 ==============
 
-This is console framework that utilises docblock to parse command descr and format.
+This is a console framework that utilises docblock to parse command description and format.
 
 ## Usage
 
@@ -60,12 +60,11 @@ Call command:
 $ php console mysql:auth payroll -u root -p p@55w0rd
 ```
 
-```php
-
 
 Prompt for input and masked input, you may but need not describe promted input 
-in command docblock
+in command docblock:
 
+```php
 ...
 //prompt for input
 $username = $in->getInput("Username:");
