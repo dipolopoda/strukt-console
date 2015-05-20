@@ -8,7 +8,6 @@
             "email": "samweru@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "Strukt\\": "src/"}
     }
