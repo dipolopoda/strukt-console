@@ -87,6 +87,7 @@ class Application{
 			return sprintf("\033[1;41m%s\033[0m\n", $e->getMessage());
 		}
 
-		return $output->add("\n")->write();
+		if(!$output->isEmpty())
+			return $output->add("\n")->write();
 	}
 }
