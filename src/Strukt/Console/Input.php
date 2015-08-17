@@ -2,18 +2,51 @@
 
 namespace Strukt\Console;
 
+/**
+* Console Input class
+*
+* @author Samuel Weru <pitsolu@gmail.com>
+*/
 class Input{
 
+	/**
+	* DocBlock
+	*
+	* @var \Strukt\Console\DocBlockParser $docparser
+	*/
 	private $docparser = null;
+
+	/**
+	* Synthesised input arguments
+	*
+	* @var array $args
+	*/
 	private $args = null;
+
+	/**
+	* Raw input arguments
+	*
+	* @var array $argv
+	*/
 	private $argv;
 
+	/**
+	* Constructor
+	*
+	* @param array $argv raw arguments
+	* @param \Strukt\Console\DocBlockParser $docparser
+	*/
 	public function __construct($argv, \Strukt\Console\DocBlockParser $docparser){
 
 		$this->argv = $argv;
 		$this->docparser = $docparser;
 	}
 
+	/**
+	* @throws \Exception
+	*
+	* @return void
+	*/
 	private function parse(){
 
 		$doclist = $this->docparser->parse();
@@ -91,6 +124,11 @@ class Input{
 			throw new \Exception(sprintf("Unknown parameter/input %s!", current($unknowns)));
 	}
 
+	/**
+	* get synthesised input arguments
+	*
+	* @return array
+	*/
 	public function getInputs(){
 
 		if(is_null($this->args))
@@ -99,6 +137,13 @@ class Input{
 		return $this->args;
 	}
 
+	/**
+	* get single input value
+	*
+	* @param string $key
+	*
+	* @return string
+	*/
 	public function get($key){
 
 		if(!is_null($this->args))
@@ -109,6 +154,13 @@ class Input{
 
 	/**
 	* Interactive unmasked input
+	*
+	* Note: uses readline extenstion
+	*		history enabled
+	*
+	* @param string $query prompt text
+	*
+	* @return string
 	*/
 	public function getInput($query){
 
@@ -131,11 +183,15 @@ class Input{
 	}
 
 	/**
-	 * Troels Knak-Nielsen - sitepoint
+	 * MaskedInput by Troels Knak-Nielsen - sitepoint
 	 *
 	 * Interactively prompts for input without echoing to the terminal.
 	 * Requires a bash shell or Windows and won't work with
 	 * safe_mode settings (Uses `shell_exec`)
+	 *
+	 * @param string $prompt
+	 *
+	 * @return string
 	 */
 	public function getMaskedInput($prompt = "Enter Password:") {
 

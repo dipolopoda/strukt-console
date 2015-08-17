@@ -2,12 +2,41 @@
 
 namespace Strukt\Console;
 
+/**
+* Strukt Console Application class
+*
+* @author Samuel Weru <pitsolu@gmail.com>
+*/
 class Application{
 
+	/**
+	* List of commands
+	*
+	* @var array $commands
+	*/
 	private $commands;
+
+	/**
+	* Name of console application
+	*
+	* @var string $name 
+	*/
 	private $name;
+
+	/**
+	* Left padding 
+	*
+	* @var int $padlen
+	*/
 	private $padlen = 0;
 
+	/**
+	* Construct
+	*
+	* @param string $name console application name
+	*
+	* @return void
+	*/
 	public function __construct($name){
 
 		if(!empty($name))
@@ -18,6 +47,16 @@ class Application{
 		$this->add(new \Strukt\Console\Command\ConsoleCommand);
 	}
 
+	/**
+	* Add commands to console application
+	*
+	* Utiliese {@link DocBlockParser} to extract documentation
+	* from command class
+	*
+	* @param \Strukt\Console\Command $command
+	*
+	* @return void
+	*/
 	public function add(\Strukt\Console\Command $command){
 
 		$class = get_class($command);
@@ -33,6 +72,13 @@ class Application{
 			$this->padlen = strlen($doclist["command"]["alias"]);
 	}
 
+	/**
+	* Execute console application
+	*
+	* @param array $argv parse in commandline parameters
+	*
+	* @return string
+	*/
 	public function run($argv){
 
 		$output = new \Strukt\Console\Output();

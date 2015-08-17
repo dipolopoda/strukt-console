@@ -2,10 +2,27 @@
 
 namespace Strukt\Console;
 
+/**
+* DocBlockParser class
+* 
+* Extract docblock from class
+*
+* @author Samuel Weru <pitsolu@gmail.com>
+*/
 class DocBlockParser{
 
+	/**
+	* Documentation block
+	*
+	* @var string $block
+	*/
 	private $block;
 
+	/**
+	* Constructor
+	*
+	* @param string $class class name
+	*/
 	public function __construct($class){
 
 		$reflector = new \ReflectionClass($class);
@@ -13,6 +30,14 @@ class DocBlockParser{
 		$this->block = $reflector->getDocComment();
 	}
 
+	/**
+	* get DocBlock without comment tokens
+	*
+	* This function is used to display contents of the 
+	* help in the commandline
+	*
+	* @return string
+	*/
 	public function getBlock(){
 
 		return implode("\n ", array_map(function($line){
@@ -22,6 +47,13 @@ class DocBlockParser{
 		}, explode("\n", $this->block)));
 	}
 
+	/**
+	* Break up and clean up DocBlock
+	*
+	* @param string $raw_block
+	*
+	* @return array
+	*/
 	private function sanitize($raw_block){
 
 		return array_map(function($line){ 
@@ -31,6 +63,14 @@ class DocBlockParser{
 		}, explode("\n", trim(trim(trim($raw_block, "/**"), "*/"))));
 	}
 
+	/**
+	* Analyze and get info from DocBlock
+	*
+	* Get useful elements from DocBlock i.e
+	* usage, args, options, aliases and descriptors
+	*
+	* @return array
+	*/
 	public function parse(){
 
 		$docblock_list = $this->sanitize($this->block);
