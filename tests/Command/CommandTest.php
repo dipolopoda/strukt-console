@@ -9,7 +9,8 @@ class CommandTest extends PHPUnit_Framework_TestCase{
 		$this->app->add(new Command\MySQLAuthCommand);
 
 		$name = "Strukt Console";
-		$this->$name = sprintf("\033[1;32m%s\n%s\033[0m\n", $name, str_repeat("=", strlen($name)));
+		$isWin = $this->app->isWindows();
+		$this->$name = sprintf(($isWin)?"\n%s\n":"\033[1;32m%s\n%s\033[0m\n", $name, str_repeat("=", strlen($name)));
 	}
 
 	public function testMySQLAuthCommand(){

@@ -48,6 +48,16 @@ class Application{
 	}
 
 	/**
+	* Which OS
+	*
+	* @return string
+	*/
+	public function isWindows(){
+
+		return strtoupper(substr(PHP_OS, 0, 3)) == "WIN";
+	}
+
+	/**
 	* Add commands to console application
 	*
 	* Utiliese {@link DocBlockParser} to extract documentation
@@ -81,10 +91,12 @@ class Application{
 	*/
 	public function run($argv){
 
+		$isWin = $this->isWindows();
+
 		$output = new \Strukt\Console\Output();
 		$output
 			->add("\n")
-			->add(sprintf("\033[1;32m%s\n%s\033[0m\n", $this->name, str_repeat("=", strlen($this->name))));
+			->add(sprintf(($isWin)?"%s\n%s\n":"\033[1;32m%s\n%s\033[0m\n", $this->name, str_repeat("=", strlen($this->name))));
 		
 		try{
 
@@ -98,7 +110,7 @@ class Application{
 					$output->add("\n");
 					foreach($this->commands as $key=>$command)
 						if(!$command["object"] instanceof \Strukt\Console\Command\ConsoleCommand)
-							$output->add(sprintf("\033[1;29m%s \033[1;32m%s\033[0m\n", 
+							$output->add(sprintf(($isWin)?"%s %s\n":"\033[1;29m%s \033[1;32m%s\033[0m\n", 
 											str_pad($command["doclist"]["command"]["alias"], $this->padlen), 
 											$command["doclist"]["command"]["descr"]));
 				break;
@@ -107,7 +119,7 @@ class Application{
 					$command = reset($this->commands);
 					if(in_array(@$argv[1], $command["doclist"]["aliases"]) ||
 						in_array(@$argv[1], array_keys($command["doclist"]["aliases"])))
-							$output->add(sprintf("\033[1;32m%s\033[0m\n", $command["docparser"]->getBlock()));
+							$output->add(sprintf(($isWin)?"%s\n":"\033[1;32m%s\033[0m\n", $command["docparser"]->getBlock()));
 				break;
 				default:
 					if(in_array(@$argv[1], array_keys($this->commands))){
@@ -115,7 +127,7 @@ class Application{
 						$command = $this->commands[@$argv[1]];
 						if(in_array(@$argv[2], array("-h", "--help"))){
 
-							$output->add(sprintf("\033[1;32m%s\033[0m\n", $command["docparser"]->getBlock()));
+							$output->add(sprintf(($isWin)?"%s\n":"\033[1;32m%s\033[0m\n", $command["docparser"]->getBlock()));
 						}
 						else{
 
@@ -130,7 +142,7 @@ class Application{
 		}
 		catch(\Exception $e){
 
-			return sprintf("\033[1;41m%s\033[0m\n", $e->getMessage());
+			return sprintf(($isWin)?"%s\n":"\033[1;41m%s\033[0m\n", $e->getMessage());
 		}
 
 		if(!$output->isEmpty())
