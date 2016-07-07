@@ -1,11 +1,5 @@
 <?php
 
-require "lib/Symfony/Component/ClassLoader/UniversalClassLoader.php";
-
-$loader = new Symfony\Component\ClassLoader\UniversalClassLoader();
-$loader->registerNamespaces(array(
-
-    'Strukt' => 'src',
-    'Command' => 'fixtures/src'
-));
-$loader->register();
+$loader = require 'vendor/autoload.php';
+$loader->add('Strukt', __DIR__.'/src/');
+$loader->add('Command', __DIR__.'/fixtures/src/');
